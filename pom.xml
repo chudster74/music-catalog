@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.github</groupId>
+    <groupId>com.github.lucapino</groupId>
     <artifactId>music-catalog</artifactId>
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
     <name>music-catalog</name>
-<!--    <url>http://kenai.com/projects/mp3catalog/pages/Home</url>
+    <!--    <url>http://kenai.com/projects/mp3catalog/pages/Home</url>
     <scm>
         <connection>scm:svn:https://svn.kenai.com/svn/mp3catalog~svn/trunk</connection>
         <developerConnection>scm:svn:https://svn.kenai.com/svn/mp3catalog~svn/trunk</developerConnection>
@@ -42,7 +42,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>../lib</classpathPrefix>
-                            <mainClass>it.mp3catalog.view.MainJFrame</mainClass>
+                            <mainClass>com.github.lucapino.mp3catalog.view.MainJFrame</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -85,7 +85,7 @@
         <dependency>
             <groupId>net.java.dev.glazedlists</groupId>
             <artifactId>glazedlists_java15</artifactId>
-            <version>1.8.0</version>
+            <version>1.9.0</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -95,7 +95,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>4.1.10.Final</version>
+            <version>4.1.11.Final</version>
         </dependency>
         <dependency>
             <groupId>org</groupId>
@@ -115,12 +115,12 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
-            <version>1.7.3</version>
+            <version>1.7.4</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.7.3</version>
+            <version>1.7.4</version>
         </dependency>
         <dependency>
             <groupId>com.sun.media</groupId>
@@ -143,33 +143,18 @@
             <version>1.6.2-2</version>
         </dependency>
         <dependency>
-            <groupId>com.googlecode.soundlibs</groupId>
-            <artifactId>jlayer</artifactId>
-            <version>1.0.1-1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode.soundlibs</groupId>
-            <artifactId>jorbis</artifactId>
-            <version>0.0.17-2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode.soundlibs</groupId>
-            <artifactId>mp3spi</artifactId>
-            <version>1.9.5-1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode.soundlibs</groupId>
-            <artifactId>tritonus-share</artifactId>
-            <version>0.3.7-2</version>
-        </dependency>
-<!--        <dependency>
-            <groupId>org.javazoom</groupId>
+            <groupId>javazoom.jl</groupId>
             <artifactId>basicplayer</artifactId>
             <version>3.0</version>
-            <scope>compile</scope>
-        </dependency>-->
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <repositories>
+        <repository>
+            <id>javazoom</id>
+            <url>http://laurent.granie.free.fr/ambiance/ambiance-thirdpart-repository/</url>
+        </repository>
+    </repositories>
 </project>
