@@ -34,7 +34,7 @@ public class Song implements Serializable, Comparable<Song> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     @Lob
     private String title;
     @Lob
@@ -42,10 +42,10 @@ public class Song implements Serializable, Comparable<Song> {
     @Column(unique = true)
     private String fileName;
     private String album;
-    private Long duration;
+    private int duration;
     private String bitrate;
-    private Long fileSize;
-    private Long songNumber;
+    private int fileSize;
+    private int songNumber;
     private String fileType;
 //    @Lob
 //    private String comment;
@@ -131,11 +131,11 @@ public class Song implements Serializable, Comparable<Song> {
         this.bitrate = bitrate;
     }
 
-    public Long getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(Long duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 
@@ -147,27 +147,27 @@ public class Song implements Serializable, Comparable<Song> {
         this.fileName = fileName;
     }
 
-    public Long getFileSize() {
+    public int getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(Long fileSize) {
+    public void setFileSize(int fileSize) {
         this.fileSize = fileSize;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Long getSongNumber() {
+    public int getSongNumber() {
         return songNumber;
     }
 
-    public void setSongNumber(Long songNumber) {
+    public void setSongNumber(int songNumber) {
         this.songNumber = songNumber;
     }
 

@@ -168,16 +168,16 @@ public class PlayerJPanel extends javax.swing.JPanel implements BasicPlayerListe
             Hashtable<Integer, JLabel> labels = new Hashtable<>();
             labels.put(0, new JLabel("00:00"));
 
-            Long value = currentSong.getDuration();
-            String res = Utils.formatDuration((Long) value);
-            labels.put(currentSong.getDuration().intValue(), new JLabel(res));
+            int value = currentSong.getDuration();
+            String res = Utils.formatDuration(value);
+            labels.put(Integer.valueOf(currentSong.getDuration()), new JLabel(res));
             jSlider1.setLabelTable(labels);
             jSlider1.setPaintLabels(true);
 
             player = new BasicPlayer(); // new FileInputStream(frame.getPropertiesPanel().editedSong.getFileName()));
             player.addBasicPlayerListener(this);
             control = (BasicController) player;
-            jSlider1.setMaximum(currentSong.getDuration().intValue() * 100);
+            jSlider1.setMaximum(currentSong.getDuration() * 100);
             MyChangeListener listener = new MyChangeListener();
             jSlider1.addMouseListener(listener);
             jSlider1.addChangeListener(listener);

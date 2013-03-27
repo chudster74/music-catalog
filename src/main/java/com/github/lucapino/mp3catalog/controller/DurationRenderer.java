@@ -39,13 +39,13 @@ public class DurationRenderer extends DefaultTableCellRenderer {
     public void setValue(Object value) {
         // The value is always a long representing the length in seconds of the
         // song
-        setText(Utils.formatDuration((Long) value));
+        setText(Utils.formatDuration((int) value));
     }
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
-        setToolTipText(Utils.formatDuration((Long) value));
+        setToolTipText(Utils.formatDuration((int) value));
         return super.getTableCellRendererComponent(table, value, isSelected,
                 hasFocus, row, column);
     }

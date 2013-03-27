@@ -35,7 +35,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JCheckBoxMenuItem;
@@ -152,11 +151,10 @@ public class MainJPanel extends javax.swing.JPanel {
 
         // set a custom cellrenderer for Duration column
         StringValue sv = new StringValue() {
-            private DecimalFormat df = new DecimalFormat("00");
 
             @Override
             public String getString(Object value) {
-                String res = Utils.formatDuration((Long)value);
+                String res = Utils.formatDuration((int) value);
                 return res;
             }
         };
