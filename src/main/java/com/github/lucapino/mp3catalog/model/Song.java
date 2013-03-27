@@ -45,7 +45,8 @@ public class Song implements Serializable, Comparable<Song> {
     private int duration;
     private String bitrate;
     private int fileSize;
-    private int songNumber;
+    @Column(nullable = true)
+    private Integer songNumber;
     private String fileType;
 //    @Lob
 //    private String comment;
@@ -163,11 +164,11 @@ public class Song implements Serializable, Comparable<Song> {
         this.id = id;
     }
 
-    public int getSongNumber() {
+    public Integer getSongNumber() {
         return songNumber;
     }
 
-    public void setSongNumber(int songNumber) {
+    public void setSongNumber(Integer songNumber) {
         this.songNumber = songNumber;
     }
 

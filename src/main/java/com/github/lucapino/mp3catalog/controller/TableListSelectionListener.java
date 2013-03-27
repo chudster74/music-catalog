@@ -68,7 +68,8 @@ public class TableListSelectionListener implements ListSelectionListener {
                 propertiesPanel.durationTextField.setText(model.getValueAt(row, 3).toString());
                 propertiesPanel.filesizeTextField.setText(model.getValueAt(row, 5).toString());
                 propertiesPanel.bitrateTextField.setText(model.getValueAt(row, 6).toString());
-                propertiesPanel.songNumberTextField.setText(model.getValueAt(row, 7).toString());
+                Integer value = (Integer) model.getValueAt(row, 7);
+                propertiesPanel.songNumberTextField.setText(value == null ? "" : value.toString());
                 propertiesPanel.filenameTextField.setText(model.getValueAt(row, 4).toString());
                 // set the current song to edit
                 propertiesPanel.setEditedSong(model.getElementAt(row));

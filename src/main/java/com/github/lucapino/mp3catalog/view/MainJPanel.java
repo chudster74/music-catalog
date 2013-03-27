@@ -44,9 +44,12 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.ToolTipHighlighter;
@@ -151,7 +154,6 @@ public class MainJPanel extends javax.swing.JPanel {
 
         // set a custom cellrenderer for Duration column
         StringValue sv = new StringValue() {
-
             @Override
             public String getString(Object value) {
                 String res = Utils.formatDuration((int) value);
@@ -182,6 +184,8 @@ public class MainJPanel extends javax.swing.JPanel {
 
         MouseListener popupListener = new PopupListener();
         jXTable2.addMouseListener(popupListener);
+
+
 
 //        jXTable2.getSelectionModel().addListSelectionListener(new SelectionListener());
         // resync the tree
@@ -384,6 +388,7 @@ public class MainJPanel extends javax.swing.JPanel {
 
         @Override
         public void mousePressed(MouseEvent e) {
+            showPopup(e);
         }
 
         @Override
@@ -396,13 +401,14 @@ public class MainJPanel extends javax.swing.JPanel {
                     jXTable2.clearSelection();
                 }
             }
-            if (e.isPopupTrigger()) {
-                showPopup(e);
-            }
+
+            showPopup(e);
         }
 
         private void showPopup(MouseEvent e) {
-            rowPopupMenu.show(e.getComponent(), e.getX(), e.getY());
+            if (e.isPopupTrigger()) {
+                rowPopupMenu.show(e.getComponent(), e.getX(), e.getY());
+            }
         }
 
         @Override

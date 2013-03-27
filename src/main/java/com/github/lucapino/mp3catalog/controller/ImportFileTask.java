@@ -78,7 +78,12 @@ public class ImportFileTask extends SwingWorker<Void, Void> {
                     song.setFileName(currentFile.getPath());
                     song.setFileSize(Long.valueOf(currentFile.length()).intValue());
                     song.setBitrate(audioFile.getAudioHeader().getBitRate());
-                    song.setSongNumber(Long.valueOf(tag.getFirst(FieldKey.TRACK)).intValue());
+                    String trackNo = tag.getFirst(FieldKey.TRACK);
+                    if (trackNo.isEmpty()) {
+                    song.setSongNumber(null);
+                    } else {
+                        song.setSongNumber(Long.valueOf(trackNo).intValue());
+                    }
                     // song.setComment(tag.getFirst(FieldKey.COMMENT));
                     //if (tag.getFirstArtwork() != null) {
                     //    song.setFileImage(tag.getFirstArtwork().getBinaryData());

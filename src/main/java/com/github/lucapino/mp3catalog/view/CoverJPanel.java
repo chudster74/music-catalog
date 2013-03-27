@@ -15,18 +15,14 @@
  */
 package com.github.lucapino.mp3catalog.view;
 
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import javax.media.jai.Interpolation;
-import javax.media.jai.operator.ScaleDescriptor;
 import org.imgscalr.Scalr;
 import org.jdesktop.swingx.JXImagePanel;
 
 /**
  *
- * @author luca
+ * @author Luca Tagliani
  */
 public class CoverJPanel extends javax.swing.JPanel {
 
@@ -84,26 +80,26 @@ public class CoverJPanel extends javax.swing.JPanel {
         coverJXImagePanel.setImage(image);
     }
 
-    public RenderedImage scale(double xScale, double yScale) {
-        RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        return ScaleDescriptor.create(image, new Float(xScale), new Float(yScale),
-                new Float(0.0f), new Float(0.0f), Interpolation.getInstance(Interpolation.INTERP_BICUBIC), qualityHints).getRendering();
-    }
+//    public RenderedImage scale(double xScale, double yScale) {
+//        RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+//        return ScaleDescriptor.create(image, new Float(xScale), new Float(yScale),
+//                new Float(0.0f), new Float(0.0f), Interpolation.getInstance(Interpolation.INTERP_BICUBIC), qualityHints).getRendering();
+//    }
 
-    private BufferedImage scaleImage(final BufferedImage originalImage, int targetWidth, int targetHeight) {
-        int origHeight = originalImage.getHeight();
-        int origWidth = originalImage.getWidth();
-        float heightScale = (float) origHeight / (float) targetHeight;
-        float widthScale = (float) origWidth / (float) targetWidth;
-        float scale = widthScale;
-        if (heightScale > widthScale) {
-            scale = heightScale;
-        }
-        targetHeight = Math.round((float) origHeight / scale);
-        targetWidth = Math.round((float) origWidth / scale);
-        return Scalr.resize(originalImage, targetHeight, targetWidth);
-
-    }
+//    private BufferedImage scaleImage(final BufferedImage originalImage, int targetWidth, int targetHeight) {
+//        int origHeight = originalImage.getHeight();
+//        int origWidth = originalImage.getWidth();
+//        float heightScale = (float) origHeight / (float) targetHeight;
+//        float widthScale = (float) origWidth / (float) targetWidth;
+//        float scale = widthScale;
+//        if (heightScale > widthScale) {
+//            scale = heightScale;
+//        }
+//        targetHeight = Math.round((float) origHeight / scale);
+//        targetWidth = Math.round((float) origWidth / scale);
+//        return Scalr.resize(originalImage, targetHeight, targetWidth);
+//
+//    }
 
 //
 //    @Override

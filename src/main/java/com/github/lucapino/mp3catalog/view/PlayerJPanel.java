@@ -170,7 +170,7 @@ public class PlayerJPanel extends javax.swing.JPanel implements BasicPlayerListe
 
             int value = currentSong.getDuration();
             String res = Utils.formatDuration(value);
-            labels.put(Integer.valueOf(currentSong.getDuration()), new JLabel(res));
+            labels.put(Integer.valueOf(currentSong.getDuration() * 100), new JLabel(res));
             jSlider1.setLabelTable(labels);
             jSlider1.setPaintLabels(true);
 
