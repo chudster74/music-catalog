@@ -12,6 +12,6 @@
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">1</property>
         <!-- Persistent classes -->
-        <mapping class="com.github.lucapino.mp3catalog.model.Song"/>
+        <mapping class="com.github.lucapino.catalog.model.Song"/>
     </session-factory>
 </hibernate-configuration>
