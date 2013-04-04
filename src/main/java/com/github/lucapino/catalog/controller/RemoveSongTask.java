@@ -50,10 +50,9 @@ public class RemoveSongTask extends SwingWorker<Void, Void> {
         songEventList.getReadWriteLock().writeLock().tryLock();
         try {
             int[] selectedRowIds = jTable.getSelectedRows();
-
             for (int i = selectedRowIds.length - 1; i >= 0; i--) {
                 int j = selectedRowIds[i];
-                parent.jLabel1.setText("Removing " + model.getValueAt(jTable.convertRowIndexToModel(j), 4));
+                parent.jLabel1.setText(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("bundle").getString("REMOVING {0}"), new Object[]{model.getValueAt(jTable.convertRowIndexToModel(j), 4)}));
                 try {
                     songEventList.remove(model.getElementAt(jTable.convertRowIndexToModel(j)));
                     session.delete(model.getElementAt(jTable.convertRowIndexToModel(j)));

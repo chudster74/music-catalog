@@ -17,6 +17,7 @@ package com.github.lucapino.catalog.controller;
 
 import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import com.github.lucapino.catalog.model.Song;
+import com.github.lucapino.catalog.model.Utils;
 import com.github.lucapino.catalog.view.MainJFrame;
 import com.github.lucapino.catalog.view.PropertiesJPanel;
 import java.awt.Component;
@@ -63,7 +64,7 @@ public class TableListSelectionListener implements ListSelectionListener {
                 propertiesPanel.titleTextField.setText(model.getValueAt(row, 0).toString());
                 propertiesPanel.authorTextField.setText(model.getValueAt(row, 1).toString());
                 propertiesPanel.albumTextField.setText(model.getValueAt(row, 2).toString());
-                propertiesPanel.durationTextField.setText(model.getValueAt(row, 3).toString());
+                propertiesPanel.durationTextField.setText(Utils.formatDuration((int) model.getValueAt(row, 3)));
                 propertiesPanel.filesizeTextField.setText(model.getValueAt(row, 5).toString());
                 propertiesPanel.bitrateTextField.setText(model.getValueAt(row, 6).toString());
                 Integer value = (Integer) model.getValueAt(row, 7);
@@ -78,7 +79,7 @@ public class TableListSelectionListener implements ListSelectionListener {
                     for (Component child : frame.getMainPanel().rowPopupMenu.getComponents()) {
                         if (child instanceof JMenuItem) {
                             // conditionally enable menu item
-                            if (((JMenuItem) child).getText().equalsIgnoreCase("Play")) {
+                            if (((JMenuItem) child).getName().equalsIgnoreCase("play")) {
                                 child.setEnabled(true);
                             }
                         }
@@ -109,7 +110,7 @@ public class TableListSelectionListener implements ListSelectionListener {
                     for (Component child : frame.getMainPanel().rowPopupMenu.getComponents()) {
                         if (child instanceof JMenuItem) {
                             // conditionally enable menu item
-                            if (((JMenuItem) child).getText().equalsIgnoreCase("Play")) {
+                            if (((JMenuItem) child).getName().equalsIgnoreCase("play")) {
                                 child.setEnabled(false);
                             }
                         }
@@ -124,7 +125,7 @@ public class TableListSelectionListener implements ListSelectionListener {
                 for (Component child : frame.getMainPanel().rowPopupMenu.getComponents()) {
                     if (child instanceof JMenuItem) {
                         // conditionally enable menu item
-                        if (((JMenuItem) child).getText().equalsIgnoreCase("Play")) {
+                        if (((JMenuItem) child).getName().equalsIgnoreCase("play")) {
                             child.setEnabled(false);
                         }
                     }
@@ -154,11 +155,6 @@ public class TableListSelectionListener implements ListSelectionListener {
                 // reset lyrics
                 frame.getLyricsPanel().getLyricsTextArea().setText("");
             }
-        }
-
-        if (e.getValueIsAdjusting()) {
-            // The mouse button has not yet been released
-        } else {
         }
     }
 }

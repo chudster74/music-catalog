@@ -17,7 +17,6 @@ package com.github.lucapino.catalog.view;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
-import org.imgscalr.Scalr;
 import org.jdesktop.swingx.JXImagePanel;
 
 /**
@@ -76,7 +75,7 @@ public class CoverJPanel extends javax.swing.JPanel {
 
     public void setImage(BufferedImage image) {
         this.image = image;
-            // display.set(scaleImage(this.image, getWidth() - 1, getHeight() - 1));
+        // display.set(scaleImage(this.image, getWidth() - 1, getHeight() - 1));
         coverJXImagePanel.setImage(image);
     }
 
@@ -85,7 +84,6 @@ public class CoverJPanel extends javax.swing.JPanel {
 //        return ScaleDescriptor.create(image, new Float(xScale), new Float(yScale),
 //                new Float(0.0f), new Float(0.0f), Interpolation.getInstance(Interpolation.INTERP_BICUBIC), qualityHints).getRendering();
 //    }
-
 //    private BufferedImage scaleImage(final BufferedImage originalImage, int targetWidth, int targetHeight) {
 //        int origHeight = originalImage.getHeight();
 //        int origWidth = originalImage.getWidth();
@@ -100,7 +98,6 @@ public class CoverJPanel extends javax.swing.JPanel {
 //        return Scalr.resize(originalImage, targetHeight, targetWidth);
 //
 //    }
-
 //
 //    @Override
 //    public Dimension getPreferredSize() {

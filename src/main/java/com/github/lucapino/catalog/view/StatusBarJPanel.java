@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -22,6 +23,7 @@ import org.jdesktop.swingx.MultiSplitLayout;
 public class StatusBarJPanel extends javax.swing.JPanel {
 
     private MainJFrame frame;
+    private ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * Creates new form StatusBarJPanel
@@ -100,16 +102,16 @@ public class StatusBarJPanel extends javax.swing.JPanel {
 
     private void propertiesToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_propertiesToggleButtonActionPerformed
         if (propertiesToggleButton.isSelected()) {
-            propertiesToggleButton.setText(java.util.ResourceBundle.getBundle("bundle").getString("HIDE PROPERTIES"));
+            propertiesToggleButton.setText(bundle.getString("HIDE PROPERTIES"));
         } else {
-            propertiesToggleButton.setText(java.util.ResourceBundle.getBundle("bundle").getString("SHOW PROPERTIES"));
+            propertiesToggleButton.setText(bundle.getString("SHOW PROPERTIES"));
         }
-        frame.getMultiSplitLayout().displayNode(java.util.ResourceBundle.getBundle("bundle").getString("PROPERTIES"), propertiesToggleButton.isSelected());
+        frame.getMultiSplitLayout().displayNode("properties", propertiesToggleButton.isSelected());
     }//GEN-LAST:event_propertiesToggleButtonActionPerformed
 
     private void coverToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coverToggleButtonActionPerformed
         if (coverToggleButton.isSelected()) {
-            coverToggleButton.setText(java.util.ResourceBundle.getBundle("bundle").getString("HIDE COVER"));
+            coverToggleButton.setText(bundle.getString("HIDE COVER"));
             // update image
             Song editedSong = frame.getPropertiesPanel().getEditedSong();
             if (editedSong != null) {
@@ -132,14 +134,14 @@ public class StatusBarJPanel extends javax.swing.JPanel {
                 }
             }
         } else {
-            coverToggleButton.setText(java.util.ResourceBundle.getBundle("bundle").getString("SHOW COVER"));
+            coverToggleButton.setText(bundle.getString("SHOW COVER"));
         }
-        frame.getMultiSplitLayout().displayNode(java.util.ResourceBundle.getBundle("bundle").getString("COVER"), coverToggleButton.isSelected());
+        frame.getMultiSplitLayout().displayNode("cover", coverToggleButton.isSelected());
     }//GEN-LAST:event_coverToggleButtonActionPerformed
 
     private void lyricsToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lyricsToggleButtonActionPerformed
         if (lyricsToggleButton.isSelected()) {
-            lyricsToggleButton.setText(java.util.ResourceBundle.getBundle("bundle").getString("HIDE LYRICS"));
+            lyricsToggleButton.setText(bundle.getString("HIDE LYRICS"));
             // update lyrics
             Song editedSong = frame.getPropertiesPanel().getEditedSong();
             if (editedSong != null) {
@@ -147,21 +149,22 @@ public class StatusBarJPanel extends javax.swing.JPanel {
                 frame.getLyricsPanel().getLyricsTextArea().setCaretPosition(0);
             }
         } else {
-            lyricsToggleButton.setText(java.util.ResourceBundle.getBundle("bundle").getString("SHOW LYRICS"));
+            lyricsToggleButton.setText(bundle.getString("SHOW LYRICS"));
         }
-        frame.getMultiSplitLayout().displayNode(java.util.ResourceBundle.getBundle("bundle").getString("LYRICS"), lyricsToggleButton.isSelected());
+        frame.getMultiSplitLayout().displayNode("lyrics", lyricsToggleButton.isSelected());
     }//GEN-LAST:event_lyricsToggleButtonActionPerformed
 
     public void syncButtonState() {
         MultiSplitLayout layout = frame.getMultiSplitLayout();
-        if (!layout.getNodeForName(java.util.ResourceBundle.getBundle("bundle").getString("PROPERTIES")).isVisible()) {
+        if (!layout.getNodeForName("properties").isVisible()) {
             propertiesToggleButton.doClick();
         }
-        if (layout.getNodeForName(java.util.ResourceBundle.getBundle("bundle").getString("LYRICS")) != null
-                && !layout.getNodeForName(java.util.ResourceBundle.getBundle("bundle").getString("LYRICS")).isVisible()) {
+        if (layout.getNodeForName("lyrics") != null
+                && !layout.getNodeForName("lyrics").isVisible()) {
             lyricsToggleButton.doClick();
         }
-        if (layout.getNodeForName(java.util.ResourceBundle.getBundle("bundle").getString("COVER")) != null && !layout.getNodeForName(java.util.ResourceBundle.getBundle("bundle").getString("COVER")).isVisible()) {
+        if (layout.getNodeForName("cover") != null
+                && !layout.getNodeForName("cover").isVisible()) {
             coverToggleButton.doClick();
         }
     }

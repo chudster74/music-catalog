@@ -28,8 +28,6 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class DurationRenderer extends DefaultTableCellRenderer {
 
-    private DecimalFormat df = new DecimalFormat("00");
-
     public DurationRenderer() {
         super();
         setHorizontalAlignment(SwingConstants.RIGHT);

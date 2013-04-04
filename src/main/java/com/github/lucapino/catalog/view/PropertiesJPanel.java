@@ -67,7 +67,7 @@ public class PropertiesJPanel extends javax.swing.JPanel {
         authorTextField = new javax.swing.JTextField();
         durationTextField = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        songNumberLabel = new javax.swing.JLabel();
+        trackNumberLabel = new javax.swing.JLabel();
         filenameLabel = new javax.swing.JLabel();
         filesizeLabel = new javax.swing.JLabel();
         bitrateLabel = new javax.swing.JLabel();
@@ -78,15 +78,16 @@ public class PropertiesJPanel extends javax.swing.JPanel {
         resetButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
 
-        setToolTipText("Properties");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle"); // NOI18N
+        setToolTipText(bundle.getString("PROPERTIES")); // NOI18N
 
-        durationLabel.setText("Durata");
+        durationLabel.setText(bundle.getString("DURATION")); // NOI18N
 
-        authorLabel.setText("Artista");
+        authorLabel.setText(bundle.getString("ARTIST")); // NOI18N
 
-        albumLabel.setText("Album");
+        albumLabel.setText(bundle.getString("ALBUM")); // NOI18N
 
-        titleLabel.setText("Titolo");
+        titleLabel.setText(bundle.getString("TITLE")); // NOI18N
 
         durationTextField.setEnabled(false);
 
@@ -103,7 +104,7 @@ public class PropertiesJPanel extends javax.swing.JPanel {
                     .addComponent(durationLabel))
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(durationTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+                    .addComponent(durationTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
                     .addComponent(authorTextField)
                     .addComponent(albumTextField)
                     .addComponent(titleTextField))
@@ -131,13 +132,13 @@ public class PropertiesJPanel extends javax.swing.JPanel {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        songNumberLabel.setText("Song number");
+        trackNumberLabel.setText(bundle.getString("TRACK NUMBER")); // NOI18N
 
-        filenameLabel.setText("Nome file");
+        filenameLabel.setText(bundle.getString("FILENAME")); // NOI18N
 
-        filesizeLabel.setText("Dimensione");
+        filesizeLabel.setText(bundle.getString("FILESIZE")); // NOI18N
 
-        bitrateLabel.setText("Bitrate");
+        bitrateLabel.setText(bundle.getString("BITRATE")); // NOI18N
 
         bitrateTextField.setEnabled(false);
 
@@ -147,7 +148,7 @@ public class PropertiesJPanel extends javax.swing.JPanel {
 
         songNumberTextField.setEnabled(false);
 
-        resetButton.setText("Reset");
+        resetButton.setText(bundle.getString("RESET")); // NOI18N
         resetButton.setEnabled(false);
         resetButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,7 +156,7 @@ public class PropertiesJPanel extends javax.swing.JPanel {
             }
         });
 
-        saveButton.setText("Save");
+        saveButton.setText(bundle.getString("SAVE")); // NOI18N
         saveButton.setEnabled(false);
         saveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,9 +182,9 @@ public class PropertiesJPanel extends javax.swing.JPanel {
                             .addComponent(bitrateTextField)
                             .addComponent(filesizeTextField)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(songNumberLabel)
+                        .addComponent(trackNumberLabel)
                         .addGap(23, 23, 23)
-                        .addComponent(songNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                        .addComponent(songNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -193,7 +194,7 @@ public class PropertiesJPanel extends javax.swing.JPanel {
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {resetButton, saveButton});
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {bitrateLabel, filenameLabel, filesizeLabel, songNumberLabel});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {bitrateLabel, filenameLabel, filesizeLabel, trackNumberLabel});
 
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,11 +215,11 @@ public class PropertiesJPanel extends javax.swing.JPanel {
                     .addComponent(resetButton)
                     .addComponent(saveButton)
                     .addComponent(songNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(songNumberLabel))
+                    .addComponent(trackNumberLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {bitrateLabel, filenameLabel, filesizeLabel, songNumberLabel});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {bitrateLabel, filenameLabel, filesizeLabel, trackNumberLabel});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -284,10 +285,10 @@ public class PropertiesJPanel extends javax.swing.JPanel {
     public javax.swing.JPanel jPanel2;
     public javax.swing.JButton resetButton;
     public javax.swing.JButton saveButton;
-    public javax.swing.JLabel songNumberLabel;
     public javax.swing.JTextField songNumberTextField;
     public javax.swing.JLabel titleLabel;
     public javax.swing.JTextField titleTextField;
+    public javax.swing.JLabel trackNumberLabel;
     // End of variables declaration//GEN-END:variables
 
     public Song getEditedSong() {

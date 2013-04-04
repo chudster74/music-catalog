@@ -23,7 +23,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
@@ -39,6 +38,8 @@ import javazoom.jl.player.basic.BasicPlayer;
 import javazoom.jl.player.basic.BasicPlayerEvent;
 import javazoom.jl.player.basic.BasicPlayerException;
 import javazoom.jl.player.basic.BasicPlayerListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -46,13 +47,13 @@ import javazoom.jl.player.basic.BasicPlayerListener;
  */
 public class PlayerJPanel extends JPanel implements BasicPlayerListener {
 
+    private Logger logger = LoggerFactory.getLogger(PlayerJPanel.class);
     private MainJFrame frame;
     private BasicPlayer player;
     private BasicController control;
     private Song song;
     private boolean paused;
     private SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
-    private DecimalFormat df = new DecimalFormat("00");
     private long currentSongTime;
     private Timer timer;
 
@@ -79,10 +80,13 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
         pauseButton = new javax.swing.JButton();
         volumeSlider = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
+        nextButton = new javax.swing.JButton();
+        previousButton = new javax.swing.JButton();
 
-        setToolTipText("Player");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle"); // NOI18N
+        setToolTipText(bundle.getString("PLAYER")); // NOI18N
 
-        playButton.setText("Play");
+        playButton.setText(bundle.getString("PLAY")); // NOI18N
         playButton.setFocusable(false);
         playButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         playButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -96,7 +100,7 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
         timeSlider.setDoubleBuffered(true);
         timeSlider.setOpaque(false);
 
-        stopButton.setText("Stop");
+        stopButton.setText(bundle.getString("STOP")); // NOI18N
         stopButton.setFocusable(false);
         stopButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         stopButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -106,7 +110,7 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
             }
         });
 
-        pauseButton.setText("Pause/Resume");
+        pauseButton.setText(bundle.getString("PAUSE/RESUME")); // NOI18N
         pauseButton.setFocusable(false);
         pauseButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         pauseButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -124,6 +128,20 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
             }
         });
 
+        nextButton.setText("Next");
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
+
+        previousButton.setText("Previous");
+        previousButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previousButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,9 +154,13 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pauseButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nextButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(previousButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(volumeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(timeSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                .addComponent(timeSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
                 .addGap(56, 56, 56)
                 .addComponent(jLabel1)
                 .addContainerGap())
@@ -148,6 +170,9 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(nextButton)
+                        .addComponent(previousButton))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(volumeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -169,7 +194,7 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
             timer.stop();
             timeSlider.setValue(0);
         } catch (BasicPlayerException ex) {
-            System.out.println("Errore: " + ex.getMessage());
+            logger.error("Error: " + ex.getMessage());
         }
     }//GEN-LAST:event_stopButtonActionPerformed
 
@@ -197,10 +222,20 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
             //
         }
     }//GEN-LAST:event_volumeSliderStateChanged
+
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void previousButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_previousButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton nextButton;
     private javax.swing.JButton pauseButton;
     private javax.swing.JButton playButton;
+    private javax.swing.JButton previousButton;
     private javax.swing.JButton stopButton;
     private javax.swing.JSlider timeSlider;
     private javax.swing.JSlider volumeSlider;
@@ -208,41 +243,33 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
 
     @Override
     public void opened(Object stream, Map properties) {
-        // throw new UnsupportedOperationException("Not supported yet.");
-        System.out.println("Opened");
     }
 
     @Override
     public void progress(int bytesread, long microseconds, byte[] pcmdata, Map properties) {
-        // throw new UnsupportedOperationException("Not supported yet.");
-        // System.out.println("Adjusting slider to " + Long.valueOf(microseconds * 100 / (currentSong.getDuration() * 1000000)).intValue());
-        // jSlider1.setValue(Long.valueOf(microseconds / 1000000).intValue());
         if ((bytesread > 0) && ((song.getFileSize() > 0))) {
-            currentSongTime = song.getDuration() * bytesread / song.getFileSize();
+            currentSongTime = (((long) song.getDuration() * bytesread) / song.getFileSize()) - 1;
         }
         jLabel1.setText(sdf.format(new Date(currentSongTime * 1000)));
     }
 
     @Override
     public void stateUpdated(BasicPlayerEvent event) {
-        System.out.println("State changed");
         if (event.getCode() == BasicPlayerEvent.EOM) {
             timeSlider.setValue(0);
             timer.stop();
             jLabel1.setText("");
         }
-        // throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void setController(BasicController controller) {
-        // throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void play() {
         play(frame.getPropertiesPanel().getEditedSong());
     }
-    
+
     private void play(Song currentSong) {
         this.song = currentSong;
         // retrieve the current selected song
@@ -312,11 +339,17 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
         public void stateChanged(ChangeEvent arg0) {
             if (!animationMode) {
                 if (!((JSlider) arg0.getSource()).getValueIsAdjusting()) {
-                    long skip = (((timeSlider.getValue() / 100) * song.getFileSize()) / song.getDuration()) - currentSongTime;
+                    long skip = (((long) (timeSlider.getValue() / 100) * song.getFileSize()) / song.getDuration()) - currentSongTime;
+                    boolean wasPlaying = player.getStatus() == BasicPlayer.PLAYING;
                     try {
+                        control.stop();
+                        control.open(new File(song.getFileName()));
                         control.seek(skip);
                         currentSongTime = timeSlider.getValue() / 100;
-                    } catch (BasicPlayerException ex) {
+                        if (wasPlaying) {
+                            control.play();
+                        }
+                    } catch (BasicPlayerException e) {
                     }
                 }
             }

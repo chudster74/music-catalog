@@ -6,12 +6,15 @@ package com.github.lucapino.catalog.controller;
 
 import ca.odell.glazedlists.gui.TableFormat;
 import com.github.lucapino.catalog.model.Song;
+import java.util.ResourceBundle;
 
 /**
  *
  * @author Tagliani
  */
 public class SongTableFormat implements TableFormat<Song> {
+
+    private ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     @Override
     public int getColumnCount() {
@@ -21,25 +24,25 @@ public class SongTableFormat implements TableFormat<Song> {
     @Override
     public String getColumnName(int column) {
         if (column == 0) {
-            return "Title";
+            return bundle.getString("TITLE");
         } else if (column == 1) {
-            return "Artist";
+            return bundle.getString("ARTIST");
         } else if (column == 2) {
-            return "Album";
+            return bundle.getString("ALBUM");
         } else if (column == 3) {
-            return "Duration";
+            return bundle.getString("DURATION");
         } else if (column == 4) {
-            return "Filename";
+            return bundle.getString("FILENAME");
         } else if (column == 5) {
-            return "Size";
+            return bundle.getString("SIZE");
         } else if (column == 6) {
-            return "Bitrate";
+            return bundle.getString("BITRATE");
         } else if (column == 7) {
-            return "Track number";
+            return bundle.getString("TRACK NUMBER");
         } else if (column == 8) {
-            return "FileType";
+            return bundle.getString("FILETYPE");
         } else if (column == 9) {
-            return "Rating";
+            return bundle.getString("RATING");
         }
         throw new IllegalStateException();
     }

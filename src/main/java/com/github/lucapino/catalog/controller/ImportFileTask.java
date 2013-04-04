@@ -19,6 +19,7 @@ import com.github.lucapino.catalog.model.HibernateUtil;
 import com.github.lucapino.catalog.model.Song;
 import com.github.lucapino.catalog.view.ImportFileJDialog;
 import java.io.File;
+import java.util.ResourceBundle;
 import javax.swing.SwingWorker;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -35,6 +36,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ImportFileTask extends SwingWorker<Void, Void> {
 
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("bundle");
     private File[] selectedFolders;
     private ImportFileJDialog parent;
     private Session session;
@@ -62,7 +64,7 @@ public class ImportFileTask extends SwingWorker<Void, Void> {
             }
             try {
                 AudioFile audioFile = AudioFileIO.read(currentFile);
-                parent.jLabel1.setText("Importing " + currentFile.getAbsolutePath());
+                parent.jLabel1.setText(java.text.MessageFormat.format(bundle.getString("IMPORTING {0}"), new Object[]{currentFile.getAbsolutePath()}));
                 Tag tag = audioFile.getTag();
                 // create a new song to persist
                 query.setParameter("fn", currentFile.getAbsolutePath());
@@ -79,7 +81,7 @@ public class ImportFileTask extends SwingWorker<Void, Void> {
                     song.setBitrate(audioFile.getAudioHeader().getBitRate());
                     String trackNo = tag.getFirst(FieldKey.TRACK);
                     if (trackNo.isEmpty()) {
-                    song.setTrackNumber(null);
+                        song.setTrackNumber(null);
                     } else {
                         song.setTrackNumber(Long.valueOf(trackNo).intValue());
                     }
@@ -100,7 +102,6 @@ public class ImportFileTask extends SwingWorker<Void, Void> {
                 session.clear();
             }
         }
-
     }
 
     @Override
@@ -128,7 +129,7 @@ public class ImportFileTask extends SwingWorker<Void, Void> {
     public void done() {
         parent.jProgressBar1.setValue(100);
         parent.jProgressBar1.setIndeterminate(false);
-        parent.jLabel1.setText("Import done");
+        parent.jLabel1.setText(bundle.getString("IMPORT DONE"));
         parent.setVisible(false);
     }
 }

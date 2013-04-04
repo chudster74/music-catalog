@@ -22,8 +22,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ResourceBundle;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
@@ -39,6 +39,7 @@ public class NavigatorJPanel extends javax.swing.JPanel {
     private JPopupMenu playListPopup;
     private DnDList<PlayListItem> list;
     private JScrollPane playlistScrollPane;
+    private ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     /**
      * Creates new form NavigatorJPanel
@@ -53,14 +54,15 @@ public class NavigatorJPanel extends javax.swing.JPanel {
         list.setModel(model);
 
         playListPopup = new JPopupMenu();
-        JMenuItem playItem = new JMenuItem("Play");
+        JMenuItem playItem = new JMenuItem(bundle.getString("PLAY"));
+        playItem.setName("play");
         playItem.addActionListener(new PlaylistActionListener(this));
         playListPopup.add(playItem);
         list.addMouseListener(new MouseAdapterImpl(this));
 
 
         playlistScrollPane = new JScrollPane(list);
-        jTabbedPane1.add("Playlist", playlistScrollPane);
+        jTabbedPane1.add("playlist", playlistScrollPane);
     }
 
     public DnDList<PlayListItem> getList() {
@@ -80,7 +82,8 @@ public class NavigatorJPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         categoriesJXtree = new org.jdesktop.swingx.JXTree();
 
-        setToolTipText("Navigator");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle"); // NOI18N
+        setToolTipText(bundle.getString("NAVIGATOR")); // NOI18N
 
         jTabbedPane1.setFont(jTabbedPane1.getFont());
 
@@ -119,10 +122,9 @@ public class NavigatorJPanel extends javax.swing.JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (((JMenuItem) e.getSource()).getText().equalsIgnoreCase("play")) {
+            if (((JMenuItem) e.getSource()).getName().equalsIgnoreCase("play")) {
                 PlayListItem item = panel.list.getModel().getElementAt(panel.list.getSelectedIndex());
                 panel.frame.getPlayerPanel().play(item);
-//                JOptionPane.showMessageDialog(panel.frame, "Play " + item.getPath() + " from playlist", "Play from playlist", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
@@ -156,7 +158,6 @@ public class NavigatorJPanel extends javax.swing.JPanel {
             if (e.getClickCount() == 2) {
                 PlayListItem item = list.getModel().getElementAt(list.getSelectedIndex());
                 panel.frame.getPlayerPanel().play(item);
-//                JOptionPane.showMessageDialog(panel.frame, "Play\n" + item.getPath(), "Play with double click", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }

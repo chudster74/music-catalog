@@ -29,14 +29,15 @@ import com.github.lucapino.catalog.model.HibernateUtil;
 import com.github.lucapino.catalog.model.Song;
 import com.github.lucapino.catalog.model.Utils;
 import java.awt.Component;
-import java.awt.ComponentOrientation;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -63,6 +64,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MainJPanel extends javax.swing.JPanel {
 
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("bundle");
     List<Song> songs = new ArrayList<>();
     private Logger logger = LoggerFactory.getLogger(MainJPanel.class);
     public JPopupMenu rowPopupMenu;
@@ -101,7 +103,7 @@ public class MainJPanel extends javax.swing.JPanel {
         if (songs.isEmpty()) {
             Session session = HibernateUtil.getSessionFactory().openSession();
             songs = session.createQuery("from Song").list();
-            logger.info("Trovate " + songs.size() + " canzoni");
+            logger.info("Found " + songs.size() + " songs");
             session.close();
         }
 
@@ -128,29 +130,27 @@ public class MainJPanel extends javax.swing.JPanel {
         // add a popup menu on the table for deleting selected rows
         rowPopupMenu = new JPopupMenu();
         // play song (default disabled)
-        JMenuItem playSongMenuItem = new JMenuItem("Play");
+        JMenuItem playSongMenuItem = new JMenuItem(bundle.getString("PLAY"));
+        playSongMenuItem.setName("play");
         playSongMenuItem.setEnabled(false);
         playSongMenuItem.addActionListener(new ActionAdapter(this));
         rowPopupMenu.add(playSongMenuItem);
         // add to playlist (always enabled)
-        JMenuItem addSongToPlaylistMenuItem = new JMenuItem("Add to playlist");
+        JMenuItem addSongToPlaylistMenuItem = new JMenuItem(bundle.getString("ADD TO PLAYLIST"));
+        addSongToPlaylistMenuItem.setName("add");
         addSongToPlaylistMenuItem.addActionListener(new ActionAdapter(this));
         rowPopupMenu.add(addSongToPlaylistMenuItem);
         // separator
         rowPopupMenu.addSeparator();
         // delete from collection (always enabled)
-        JMenuItem removeSongsMenuItem = new JMenuItem("Remove songs");
+        JMenuItem removeSongsMenuItem = new JMenuItem(bundle.getString("REMOVE SONGS"));
+        removeSongsMenuItem.setName("remove");
         removeSongsMenuItem.addActionListener(new ActionAdapter(this));
         rowPopupMenu.add(removeSongsMenuItem);
 
         MouseListener popupListener = new PopupListener();
         jXTable2.addMouseListener(popupListener);
 
-
-
-//        jXTable2.getSelectionModel().addListSelectionListener(new SelectionListener());
-        // resync the tree
-//        syncTree();
         MouseListener headerPopupListener = new HeaderPopoupListener();
         jXTable2.getTableHeader().addMouseListener(headerPopupListener);
 
@@ -169,7 +169,7 @@ public class MainJPanel extends javax.swing.JPanel {
     void removeRowsFromTable() {
         int[] selectedRowIds = jXTable2.getSelectedRows();
         // ask for confirmation
-        int res = JOptionPane.showConfirmDialog(frame, "Confirm the removal of " + selectedRowIds.length + " songs from catalog", "Confirm", JOptionPane.OK_CANCEL_OPTION);
+        int res = JOptionPane.showConfirmDialog(frame, MessageFormat.format(bundle.getString("CONFIRM THE REMOVAL OF {0} SONGS FROM CATALOG"), new Object[]{selectedRowIds.length}), bundle.getString("CONFIRM"), JOptionPane.OK_CANCEL_OPTION);
         // remove selected rows
         if (res == JOptionPane.OK_OPTION) {
             // show progress dialog
@@ -178,10 +178,8 @@ public class MainJPanel extends javax.swing.JPanel {
             dialog.removeFiles(this);
             dialog.setVisible(true);
         }
-
         // resync the tree
         syncTree();
-
     }
 
     /**
@@ -209,12 +207,12 @@ public class MainJPanel extends javax.swing.JPanel {
             }
         ));
         jXTable2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jXTable2.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         jXTable2.setDoubleBuffered(true);
         jXTable2.setEditable(false);
         jScrollPane1.setViewportView(jXTable2);
 
-        jLabel1.setText("Search:");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle"); // NOI18N
+        jLabel1.setText(bundle.getString("SEARCH:")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -319,7 +317,6 @@ public class MainJPanel extends javax.swing.JPanel {
                 // add a popup menu on the header for selecting column visibility
                 headerPopupMenu = new JPopupMenu();
                 // get all column (also the invisible one)
-                // int columnCount = jXTable2.getColumnCount(true);
                 List<TableColumn> columns = jXTable2.getColumns(true);
                 JMenuItem item;
                 for (TableColumn tableColumn : columns) {
@@ -362,7 +359,6 @@ public class MainJPanel extends javax.swing.JPanel {
                     jXTable2.clearSelection();
                 }
             }
-
             showPopup(e);
         }
 
@@ -375,11 +371,6 @@ public class MainJPanel extends javax.swing.JPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
-                JTable table = frame.getMainPanel().getjXTable2();
-                EventJXTableModel<Song> model = (EventJXTableModel<Song>) table.getModel();
-                int row = table.convertRowIndexToModel(table.getSelectedRow());
-//                Song currentSong = model.getElementAt(row);
-//                JOptionPane.showMessageDialog(frame, "Play\n" + currentSong.getTitle(), "Play with double click", JOptionPane.INFORMATION_MESSAGE);
                 frame.getPlayerPanel().play();
             }
         }
@@ -392,7 +383,7 @@ public class MainJPanel extends javax.swing.JPanel {
         public void mouseExited(MouseEvent e) {
         }
     }
-    
+
     class ActionAdapter implements ActionListener {
 
         MainJPanel adapter;
@@ -408,28 +399,21 @@ public class MainJPanel extends javax.swing.JPanel {
             int row = table.convertRowIndexToModel(table.getSelectedRow());
             Song currentSong = model.getElementAt(row);
             JMenuItem item = (JMenuItem) e.getSource();
-            if (item.getText().equals("Remove songs")) {
+            if (item.getName().equals("remove")) {
                 adapter.removeRowsFromTable();
             }
-            if (item.getText().equals("Play")) {
-                // TEMP
-//                JOptionPane.showMessageDialog(frame, "Play " + currentSong.getTitle(), "Play song", JOptionPane.INFORMATION_MESSAGE);
-                // adapter.removeRowsFromTable();
+            if (item.getName().equals("play")) {
                 frame.getPlayerPanel().play();
             }
-            if (item.getText().equals("Add to playlist")) {
-                // TEMP
+            if (item.getName().equals("add")) {
                 if (table.getSelectedRowCount() == 1) {
-                    // JOptionPane.showMessageDialog(frame, "Aggiungi a playlist la canzone " + currentSong.getTitle(), "Aggiungi canzone a playlist", JOptionPane.INFORMATION_MESSAGE);
                     frame.getNavigatorPanel().getList().getModel().addItem(new PlayListItem(currentSong, currentSong.getTitle(), currentSong.getFileName()));
                 } else {
                     for (int selectedRow : table.getSelectedRows()) {
                         currentSong = model.getElementAt(table.convertRowIndexToModel(selectedRow));
                         frame.getNavigatorPanel().getList().getModel().addItem(new PlayListItem(currentSong, currentSong.getTitle(), currentSong.getFileName()));
                     }
-                    // JOptionPane.showMessageDialog(frame, "Aggiungi a playlist " + table.getSelectedRowCount() + " canzoni", "Aggiungi canzone a playlist", JOptionPane.INFORMATION_MESSAGE);
                 }
-                // adapter.removeRowsFromTable();
             }
         }
     }

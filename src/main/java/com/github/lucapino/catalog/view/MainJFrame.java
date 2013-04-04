@@ -33,6 +33,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ResourceBundle;
 import java.util.logging.Handler;
 import java.util.logging.LogManager;
 import javax.swing.JFileChooser;
@@ -69,6 +70,7 @@ public class MainJFrame extends JFrame {
     private StatusBarJPanel statusBarPanel;
     private MultiSplitLayout layout;
     private JXMultiSplitPane msp;
+    private ResourceBundle bundle = ResourceBundle.getBundle("bundle");
 
     public MainJPanel getMainPanel() {
         return mainPanel;
@@ -169,7 +171,7 @@ public class MainJFrame extends JFrame {
         msp.add(navigatorPanel, "playlist");
 
         Container cp = this.getContentPane();
-        
+
         // create player panel
         playerPanel = new PlayerJPanel(this);
 
@@ -180,7 +182,7 @@ public class MainJFrame extends JFrame {
         cp.add(playerPanel, BorderLayout.NORTH);
         cp.add(msp, BorderLayout.CENTER);
         cp.add(statusBarPanel, BorderLayout.SOUTH);
-        
+
         // adding the menu
         createMenu();
         pack();
@@ -195,15 +197,15 @@ public class MainJFrame extends JFrame {
     private void createMenu() {
         menuBar = new JMenuBar();
         // fileMenu
-        JMenu fileMenu = new JMenu("File");
-        JMenuItem importMenuItem = new JMenuItem("Import files");
+        JMenu fileMenu = new JMenu(bundle.getString("FILE"));
+        JMenuItem importMenuItem = new JMenuItem(bundle.getString("IMPORT FILES"));
         importMenuItem.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 importMenuItemActionPerformed(evt);
             }
         });
-        JMenuItem exitMenuItem = new JMenuItem("Exit");
+        JMenuItem exitMenuItem = new JMenuItem(bundle.getString("EXIT"));
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -216,8 +218,8 @@ public class MainJFrame extends JFrame {
         menuBar.add(fileMenu);
 
         // helpMenu
-        JMenu helpMenu = new JMenu("Help");
-        JMenuItem aboutMenuItem = new JMenuItem("About");
+        JMenu helpMenu = new JMenu(bundle.getString("HELP"));
+        JMenuItem aboutMenuItem = new JMenuItem(bundle.getString("ABOUT"));
         aboutMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -279,13 +281,7 @@ public class MainJFrame extends JFrame {
             // Set Nimbus L&F
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
             // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (UnsupportedLookAndFeelException e) {
-            // handle exception
-        } catch (ClassNotFoundException e) {
-            // handle exception
-        } catch (InstantiationException e) {
-            // handle exception
-        } catch (IllegalAccessException e) {
+        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             // handle exception
         }
         EventQueue.invokeLater(new Runnable() {
@@ -306,7 +302,7 @@ public class MainJFrame extends JFrame {
         try {
             logger.info("Saving layout...");
             try (XMLEncoder enc = new XMLEncoder(new BufferedOutputStream(
-                                  new FileOutputStream(System.getProperty("user.home") + "/" + LAYOUT_CONFIG_FILE)))) {
+                    new FileOutputStream(System.getProperty("user.home") + "/" + LAYOUT_CONFIG_FILE)))) {
                 MultiSplitLayout.Node model = msp.getMultiSplitLayout().getModel();
                 enc.writeObject(model);
             }
