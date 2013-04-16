@@ -18,6 +18,8 @@ package com.github.lucapino.catalog.view;
 import com.github.lucapino.catalog.controller.PlayListItem;
 import com.github.lucapino.catalog.model.Song;
 import com.github.lucapino.catalog.model.Utils;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -27,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Map;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -87,15 +91,12 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
         setToolTipText(bundle.getString("PLAYER")); // NOI18N
 
         playButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/player_play.png"))); // NOI18N
-        playButton.setText(bundle.getString("PLAY")); // NOI18N
         playButton.setBorder(null);
         playButton.setBorderPainted(false);
         playButton.setContentAreaFilled(false);
         playButton.setFocusable(false);
         playButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        playButton.setOpaque(false);
-        playButton.setRolloverEnabled(false);
-        playButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        playButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/player_play_rollover.png"))); // NOI18N
         playButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 playButtonActionPerformed(evt);
@@ -107,11 +108,11 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
         timeSlider.setOpaque(false);
 
         stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/player_stop.png"))); // NOI18N
-        stopButton.setText(bundle.getString("STOP")); // NOI18N
         stopButton.setBorderPainted(false);
         stopButton.setContentAreaFilled(false);
         stopButton.setFocusable(false);
         stopButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        stopButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/player_stop_rollover.png"))); // NOI18N
         stopButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         stopButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,12 +121,11 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
         });
 
         pauseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/player_pause.png"))); // NOI18N
-        pauseButton.setText(bundle.getString("PAUSE/RESUME")); // NOI18N
         pauseButton.setBorderPainted(false);
         pauseButton.setContentAreaFilled(false);
         pauseButton.setFocusable(false);
         pauseButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        pauseButton.setOpaque(false);
+        pauseButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/player_pause_rollover.png"))); // NOI18N
         pauseButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         pauseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,9 +141,14 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
             }
         });
 
+        jLabel1.setMaximumSize(new java.awt.Dimension(58, 15));
+        jLabel1.setMinimumSize(new java.awt.Dimension(58, 15));
+        jLabel1.setPreferredSize(new java.awt.Dimension(58, 15));
+
         nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/player_fwd.png"))); // NOI18N
         nextButton.setBorderPainted(false);
         nextButton.setContentAreaFilled(false);
+        nextButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/player_fwd_rollover.png"))); // NOI18N
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextButtonActionPerformed(evt);
@@ -153,6 +158,7 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
         previousButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/player_rew.png"))); // NOI18N
         previousButton.setBorderPainted(false);
         previousButton.setContentAreaFilled(false);
+        previousButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/player_rew_rollover.png"))); // NOI18N
         previousButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 previousButtonActionPerformed(evt);
@@ -176,30 +182,30 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(volumeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(timeSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(timeSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {nextButton, pauseButton, playButton, previousButton, stopButton});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(timeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(volumeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(previousButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(playButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(stopButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(playButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                         .addComponent(pauseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(nextButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(nextButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(stopButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {nextButton, pauseButton, playButton, previousButton, stopButton});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {nextButton, pauseButton, playButton, previousButton});
 
     }// </editor-fold>//GEN-END:initComponents
 
