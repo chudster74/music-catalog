@@ -52,24 +52,31 @@ public class StatusBarJPanel extends javax.swing.JPanel {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle"); // NOI18N
         jLabel1.setText(bundle.getString("STATUSBAR")); // NOI18N
 
+        propertiesToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/properties.png"))); // NOI18N
         propertiesToggleButton.setSelected(true);
-        propertiesToggleButton.setText(bundle.getString("HIDE PROPERTIES")); // NOI18N
+        propertiesToggleButton.setToolTipText("Hide properties");
+        propertiesToggleButton.setContentAreaFilled(false);
+        propertiesToggleButton.setOpaque(true);
         propertiesToggleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 propertiesToggleButtonActionPerformed(evt);
             }
         });
 
+        coverToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cover.png"))); // NOI18N
         coverToggleButton.setSelected(true);
-        coverToggleButton.setText(bundle.getString("HIDE COVER")); // NOI18N
+        coverToggleButton.setToolTipText("Hide cover");
+        coverToggleButton.setContentAreaFilled(false);
         coverToggleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 coverToggleButtonActionPerformed(evt);
             }
         });
 
+        lyricsToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/lyrics.png"))); // NOI18N
         lyricsToggleButton.setSelected(true);
-        lyricsToggleButton.setText(bundle.getString("HIDE LYRICS")); // NOI18N
+        lyricsToggleButton.setToolTipText("Hide lyrics");
+        lyricsToggleButton.setContentAreaFilled(false);
         lyricsToggleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lyricsToggleButtonActionPerformed(evt);
@@ -81,37 +88,39 @@ public class StatusBarJPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
-                .addComponent(propertiesToggleButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 415, Short.MAX_VALUE)
+                .addComponent(propertiesToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(coverToggleButton)
+                .addComponent(coverToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lyricsToggleButton))
+                .addComponent(lyricsToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel1)
-                .addComponent(propertiesToggleButton)
-                .addComponent(coverToggleButton)
-                .addComponent(lyricsToggleButton))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(propertiesToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(coverToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lyricsToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void propertiesToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_propertiesToggleButtonActionPerformed
-        if (propertiesToggleButton.isSelected()) {
-            propertiesToggleButton.setText(bundle.getString("HIDE PROPERTIES"));
-        } else {
-            propertiesToggleButton.setText(bundle.getString("SHOW PROPERTIES"));
-        }
+//        if (propertiesToggleButton.isSelected()) {
+//            propertiesToggleButton.setText(bundle.getString("HIDE PROPERTIES"));
+//        } else {
+//            propertiesToggleButton.setText(bundle.getString("SHOW PROPERTIES"));
+//        }
         frame.getMultiSplitLayout().displayNode("properties", propertiesToggleButton.isSelected());
     }//GEN-LAST:event_propertiesToggleButtonActionPerformed
 
     private void coverToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coverToggleButtonActionPerformed
         if (coverToggleButton.isSelected()) {
-            coverToggleButton.setText(bundle.getString("HIDE COVER"));
+//            coverToggleButton.setText(bundle.getString("HIDE COVER"));
             // update image
             Song editedSong = frame.getPropertiesPanel().getEditedSong();
             if (editedSong != null) {
@@ -133,23 +142,23 @@ public class StatusBarJPanel extends javax.swing.JPanel {
                     }
                 }
             }
-        } else {
-            coverToggleButton.setText(bundle.getString("SHOW COVER"));
+//        } else {
+//            coverToggleButton.setText(bundle.getString("SHOW COVER"));
         }
         frame.getMultiSplitLayout().displayNode("cover", coverToggleButton.isSelected());
     }//GEN-LAST:event_coverToggleButtonActionPerformed
 
     private void lyricsToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lyricsToggleButtonActionPerformed
         if (lyricsToggleButton.isSelected()) {
-            lyricsToggleButton.setText(bundle.getString("HIDE LYRICS"));
+//            lyricsToggleButton.setText(bundle.getString("HIDE LYRICS"));
             // update lyrics
             Song editedSong = frame.getPropertiesPanel().getEditedSong();
             if (editedSong != null) {
                 frame.getLyricsPanel().getLyricsTextArea().setText(editedSong.getLyrics());
                 frame.getLyricsPanel().getLyricsTextArea().setCaretPosition(0);
             }
-        } else {
-            lyricsToggleButton.setText(bundle.getString("SHOW LYRICS"));
+//        } else {
+//            lyricsToggleButton.setText(bundle.getString("SHOW LYRICS"));
         }
         frame.getMultiSplitLayout().displayNode("lyrics", lyricsToggleButton.isSelected());
     }//GEN-LAST:event_lyricsToggleButtonActionPerformed
