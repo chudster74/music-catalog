@@ -18,6 +18,7 @@ package com.github.lucapino.catalog.view;
 import com.github.lucapino.catalog.controller.DnDList;
 import com.github.lucapino.catalog.controller.DnDListModel;
 import com.github.lucapino.catalog.controller.PlayListItem;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -50,6 +51,7 @@ public class NavigatorJPanel extends javax.swing.JPanel {
         list = new DnDList<>();
         list.setDragEnabled(true);
         list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        list.setSelectionForeground(Color.WHITE);
         DnDListModel<PlayListItem> model = new DnDListModel<>();
         list.setModel(model);
 
@@ -106,6 +108,7 @@ public class NavigatorJPanel extends javax.swing.JPanel {
     public JXTree getCategoriesTree() {
         return categoriesJXtree;
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXTree categoriesJXtree;
     private javax.swing.JScrollPane jScrollPane1;

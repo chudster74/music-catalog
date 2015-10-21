@@ -140,6 +140,10 @@ public class MainJPanel extends javax.swing.JPanel {
         addSongToPlaylistMenuItem.setName("add");
         addSongToPlaylistMenuItem.addActionListener(new ActionAdapter(this));
         rowPopupMenu.add(addSongToPlaylistMenuItem);
+        JMenuItem replaceSongInPlaylistMenuItem = new JMenuItem(bundle.getString("REPLACE IN PLAYLIST"));
+        replaceSongInPlaylistMenuItem.setName("replace");
+        replaceSongInPlaylistMenuItem.addActionListener(new ActionAdapter(this));
+        rowPopupMenu.add(replaceSongInPlaylistMenuItem);
         // separator
         rowPopupMenu.addSeparator();
         // delete from collection (always enabled)
@@ -414,6 +418,8 @@ public class MainJPanel extends javax.swing.JPanel {
                         frame.getNavigatorPanel().getList().getModel().addItem(new PlayListItem(currentSong, currentSong.getTitle(), currentSong.getFileName()));
                     }
                 }
+            }
+            if (item.getName().equals("replace")) {
             }
         }
     }

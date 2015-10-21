@@ -15,11 +15,11 @@
  */
 package com.github.lucapino.catalog.view;
 
+import com.github.lucapino.catalog.controller.Audio;
+import com.github.lucapino.catalog.controller.DnDList;
 import com.github.lucapino.catalog.controller.PlayListItem;
 import com.github.lucapino.catalog.model.Song;
 import com.github.lucapino.catalog.model.Utils;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -29,8 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Map;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import javax.sound.sampled.Mixer;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -42,6 +41,11 @@ import javazoom.jl.player.basic.BasicPlayer;
 import javazoom.jl.player.basic.BasicPlayerEvent;
 import javazoom.jl.player.basic.BasicPlayerException;
 import javazoom.jl.player.basic.BasicPlayerListener;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
+import org.jnativehook.SwingDispatchService;
+import org.jnativehook.keyboard.NativeKeyEvent;
+import org.jnativehook.keyboard.NativeKeyListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,8 +53,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author luca
  */
-public class PlayerJPanel extends JPanel implements BasicPlayerListener {
-
+public class PlayerJPanel extends JPanel implements BasicPlayerListener, NativeKeyListener {
+    
     private Logger logger = LoggerFactory.getLogger(PlayerJPanel.class);
     private MainJFrame frame;
     private BasicPlayer player;
@@ -60,6 +64,7 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
     private SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
     private long currentSongTime;
     private Timer timer;
+    private int previousVolume = 50;
 
     /**
      * Creates new form PlayerJPanel
@@ -67,6 +72,20 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
     public PlayerJPanel(MainJFrame frame) {
         initComponents();
         this.frame = frame;
+        // Set the event dispatcher to a swing safe executor service.
+        GlobalScreen.setEventDispatcher(new SwingDispatchService());
+        // Initialze native hook.
+        try {
+            GlobalScreen.registerNativeHook();
+        } catch (NativeHookException ex) {
+            System.err.println("There was a problem registering the native hook.");
+            System.err.println(ex.getMessage());
+            ex.printStackTrace();
+            
+            System.exit(1);
+        }
+        
+        GlobalScreen.addNativeKeyListener(this);
     }
 
     /**
@@ -241,19 +260,38 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
     }//GEN-LAST:event_pauseButtonActionPerformed
 
     private void volumeSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_volumeSliderStateChanged
-        try {
-            player.setGain(((double) volumeSlider.getValue()) / 100);
-        } catch (BasicPlayerException ex) {
-            //
-        }
+//        try {
+//            player.setGain(((double) volumeSlider.getValue()) / 100);
+        Audio.setMasterOutputVolume(((float) volumeSlider.getValue()) / 100);
+//        } catch (BasicPlayerException ex) {
+//            //
+//        }
     }//GEN-LAST:event_volumeSliderStateChanged
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
-        // TODO add your handling code here:
+        DnDList<PlayListItem> list = frame.getNavigatorPanel().getList();
+        if (list.getModel().getSize() > 0) {
+            int selected = list.getSelectedIndex();
+            if (selected < list.getModel().getSize()) {
+                PlayListItem nextItem = list.getModel().getElementAt(selected + 1);
+                list.setSelectedIndex(selected + 1);
+                play(nextItem);
+            }
+        }
+
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void previousButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousButtonActionPerformed
-        // TODO add your handling code here:
+        DnDList<PlayListItem> list = frame.getNavigatorPanel().getList();
+        if (list.getModel().getSize() > 0) {
+            int selected = list.getSelectedIndex();
+            if (selected > 0) {
+                selected -= 1;
+            }
+            PlayListItem nextItem = list.getModel().getElementAt(selected);
+            list.setSelectedIndex(selected);
+            play(nextItem);
+        }
     }//GEN-LAST:event_previousButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -269,7 +307,7 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
     @Override
     public void opened(Object stream, Map properties) {
     }
-
+    
     @Override
     public void progress(int bytesread, long microseconds, byte[] pcmdata, Map properties) {
         if ((bytesread > 0) && ((song.getFileSize() > 0))) {
@@ -277,24 +315,26 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
         }
         jLabel1.setText(sdf.format(new Date(currentSongTime * 1000)));
     }
-
+    
     @Override
     public void stateUpdated(BasicPlayerEvent event) {
         if (event.getCode() == BasicPlayerEvent.EOM) {
             timeSlider.setValue(0);
             timer.stop();
             jLabel1.setText("");
+            // try to advance
+            nextButtonActionPerformed(null);
         }
     }
-
+    
     @Override
     public void setController(BasicController controller) {
     }
-
+    
     public void play() {
         play(frame.getPropertiesPanel().getEditedSong());
     }
-
+    
     private void play(Song currentSong) {
         this.song = currentSong;
         // retrieve the current selected song
@@ -305,13 +345,13 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
             }
             Hashtable<Integer, JLabel> labels = new Hashtable<>();
             labels.put(0, new JLabel("00:00"));
-
+            
             int value = song.getDuration();
             String res = Utils.formatDuration(value);
             labels.put(Integer.valueOf(song.getDuration() * 100), new JLabel(res));
             timeSlider.setLabelTable(labels);
             timeSlider.setPaintLabels(true);
-
+            
             player = new BasicPlayer(); // new FileInputStream(frame.getPropertiesPanel().editedSong.getFileName()));
             player.addBasicPlayerListener(this);
             control = (BasicController) player;
@@ -319,11 +359,13 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
             MyChangeListener listener = new MyChangeListener();
             timeSlider.addMouseListener(listener);
             timeSlider.addChangeListener(listener);
-
+            
             control.open(new File(song.getFileName()));
             currentSongTime = 0;
             control.play();
-
+            
+            float currentVolume = Audio.getMasterOutputVolume();
+            volumeSlider.setValue((int) (currentVolume * 100));
             timer = new Timer(100, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -335,31 +377,78 @@ public class PlayerJPanel extends JPanel implements BasicPlayerListener {
         }
         // play it
     }
-
+    
     public void play(PlayListItem item) {
         play(item.getSong());
     }
-
+    
+    @Override
+    public void nativeKeyPressed(NativeKeyEvent nke) {
+        switch (nke.getKeyCode()) {
+            case NativeKeyEvent.VC_VOLUME_MUTE:
+                if (volumeSlider.getValue() == 0) {
+                    volumeSlider.setValue(previousVolume);
+                } else {
+                    previousVolume = volumeSlider.getValue();
+                    volumeSlider.setValue(0);
+                }
+                break;
+            case NativeKeyEvent.VC_VOLUME_DOWN:
+                int newValue = Math.max(0, volumeSlider.getValue() - 10);
+                volumeSlider.setValue(newValue);
+                break;
+            case NativeKeyEvent.VC_VOLUME_UP:
+                newValue = Math.min(100, volumeSlider.getValue() + 10);
+                volumeSlider.setValue(newValue);
+                break;
+            case NativeKeyEvent.VC_MEDIA_NEXT:
+                nextButtonActionPerformed(null);
+                break;
+            case NativeKeyEvent.VC_MEDIA_PREVIOUS:
+                previousButtonActionPerformed(null);
+                break;
+            case NativeKeyEvent.VC_MEDIA_PLAY:
+                if (player.getStatus() == BasicPlayer.PLAYING) {
+                    pauseButtonActionPerformed(null);
+                } else if (player.getStatus() == BasicPlayer.STOPPED) {
+                    playButtonActionPerformed(null);
+                }
+                break;
+            case NativeKeyEvent.VC_MEDIA_STOP:
+                stopButtonActionPerformed(null);
+        }
+    }
+    
+    @Override
+    public void nativeKeyReleased(NativeKeyEvent nke) {
+        
+    }
+    
+    @Override
+    public void nativeKeyTyped(NativeKeyEvent nke) {
+        
+    }
+    
     public class MyChangeListener extends MouseAdapter implements ChangeListener {
-
+        
         boolean animationMode = true;
-
+        
         public void setAnimationMode(boolean mode) {
             this.animationMode = mode;
         }
-
+        
         @Override
         public void mousePressed(MouseEvent e) {
             timer.stop();
             setAnimationMode(false);
         }
-
+        
         @Override
         public void mouseReleased(MouseEvent e) {
             setAnimationMode(true);
             timer.start();
         }
-
+        
         @Override
         public void stateChanged(ChangeEvent arg0) {
             if (!animationMode) {

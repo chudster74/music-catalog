@@ -15,6 +15,7 @@
  */
 package com.github.lucapino.catalog.view;
 
+import com.github.lucapino.catalog.controller.PlayListSelectionListener;
 import com.github.lucapino.catalog.controller.TableListSelectionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -188,6 +189,9 @@ public class MainJFrame extends JFrame {
         pack();
         TableListSelectionListener tlsl = new TableListSelectionListener(mainPanel.getjXTable2(), this);
         mainPanel.getjXTable2().getSelectionModel().addListSelectionListener(tlsl);
+        
+        PlayListSelectionListener plsl = new PlayListSelectionListener(navigatorPanel.getList(), this);
+        navigatorPanel.getList().getSelectionModel().addListSelectionListener(plsl);
     }
 
     public MultiSplitLayout getMultiSplitLayout() {
